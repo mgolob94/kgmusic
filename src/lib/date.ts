@@ -84,3 +84,10 @@ export function seasonDefaults(today: string, startMonth = 9, endMonth = 6) {
   const eYear = startMonth > endMonth ? Number(nextStart.slice(0, 4)) + 1 : Number(nextStart.slice(0, 4));
   return { start: nextStart, end: lastDay(eYear, endMonth) };
 }
+
+export function fmtDuration(min: number) {
+  const h = Math.floor(min / 60);
+  const m = min % 60;
+  if (h === 0) return `${m} min`;
+  return m === 0 ? `${h} h` : `${h} h ${m} min`;
+}
