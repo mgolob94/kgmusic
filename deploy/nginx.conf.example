@@ -1,14 +1,10 @@
-# /etc/nginx/sites-available/kgmusic  (po tem: certbot --nginx -d kgmusic.example.com)
+# /etc/nginx/sites-available/kgmusic  →  ln -s v sites-enabled
+# Najprej samo HTTP; nato: sudo certbot --nginx -d kgmusic.example.com
+# Certbot sam doda blok za 443 s certifikatom in preusmeritev iz 80 na HTTPS.
 server {
     listen 80;
+    listen [::]:80;
     server_name kgmusic.example.com;
-    location / { return 301 https://$host$request_uri; }
-}
-
-server {
-    listen 443 ssl http2;
-    server_name kgmusic.example.com;
-    # ssl_certificate / ssl_certificate_key doda certbot
 
     client_max_body_size 2m;
 

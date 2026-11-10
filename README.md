@@ -24,7 +24,7 @@ cp .env.example .env              # nastavi POSTGRES_PASSWORD, SESSION_SECRET (o
 docker compose up -d --build      # migracije se zaženejo samodejno ob zagonu
 ```
 
-Aplikacija je na gostitelju dostopna samo na `127.0.0.1:3009` (v kontejnerju 3000). Javno jo izpostavi nginx s HTTPS (`deploy/nginx.conf.example`, nato `certbot --nginx`). PWA in prijava sta brez HTTPS neuporabni (`COOKIE_SECURE=true`).
+Aplikacija je na gostitelju dostopna samo na `127.0.0.1:3009` (v kontejnerju 3000). Javno jo izpostavi nginx: najprej HTTP blok iz `deploy/nginx.conf.example`, `sudo nginx -t && sudo systemctl reload nginx`, nato `sudo certbot --nginx -d <domena>` (certbot doda HTTPS sam). PWA in prijava sta brez HTTPS neuporabni (`COOKIE_SECURE=true`).
 Varnostna kopija: `docker compose exec db pg_dump -U kgmusic kgmusic > backup.sql` (nastavi cron, shrani ven s strežnika).
 
 ## Kaj je v aplikaciji
