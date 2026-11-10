@@ -86,6 +86,8 @@ export const slots = pgTable(
     subject: text("subject"), // klavir / petje
     startDate: date("start_date", { mode: "string" }).notNull(),
     endDate: date("end_date", { mode: "string" }).notNull(),
+    /** Ali se državni prazniki preskočijo pri ustvarjanju terminov (velja tudi pri podaljšanju). */
+    skipHolidays: boolean("skip_holidays").notNull().default(true),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   },
   (t) => [index("slots_ws_idx").on(t.workspaceId), index("slots_student_idx").on(t.studentId)],

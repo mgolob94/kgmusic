@@ -1,0 +1,1 @@
+ALTER TABLE "slots" ADD COLUMN "skip_holidays" boolean DEFAULT true NOT NULL;
