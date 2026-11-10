@@ -1,0 +1,188 @@
+@import "tailwindcss";
+
+/* ───────────── Design tokens ─────────────
+   Hladen papir, črnilo in ena samozavestna barva (petrolej, kot lak starega klavirja).
+   Statusi in predmeti imajo vedno ikono + besedo, nikoli samo barve. */
+:root {
+  color-scheme: light;
+  --paper: #f3f5f1;
+  --surface: #ffffff;
+  --sunken: #e8ebe3;
+  --ink: #16212b;
+  --ink-soft: #46535f;
+  --ink-faint: #5a6672;
+  --line: #d6dbd0;
+  --line-strong: #b4bcae;
+
+  --primary: #1d5b63;
+  --primary-hover: #164a51;
+  --on-primary: #ffffff;
+  --primary-soft: #d9eae8;
+
+  --attended: #276b43;
+  --attended-soft: #dbeee1;
+  --excused: #7a5600;
+  --excused-soft: #f6e8c0;
+  --unexcused: #a82f29;
+  --unexcused-soft: #f8dcd8;
+  --cancelled: #55616c;
+  --cancelled-soft: #e2e5dd;
+
+  --klavir: #2a5688;
+  --klavir-soft: #dce7f3;
+  --petje: #983c61;
+  --petje-soft: #f5dee8;
+
+  --shadow-soft: 0 1px 2px rgb(22 33 43 / 0.05), 0 4px 14px -6px rgb(22 33 43 / 0.1);
+  --shadow-float: 0 10px 40px -10px rgb(22 33 43 / 0.28);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --paper: #0f161b;
+    --surface: #172028;
+    --sunken: #0b1115;
+    --ink: #e8edf0;
+    --ink-soft: #b1bcc5;
+    --ink-faint: #95a2ad;
+    --line: #2a363f;
+    --line-strong: #3d4b56;
+
+    --primary: #6cc0c8;
+    --primary-hover: #86d0d7;
+    --on-primary: #08262a;
+    --primary-soft: #1a3a3f;
+
+    --attended: #84d4a4;
+    --attended-soft: #16301f;
+    --excused: #e8c36e;
+    --excused-soft: #392f10;
+    --unexcused: #f2958e;
+    --unexcused-soft: #401b18;
+    --cancelled: #9aa6b1;
+    --cancelled-soft: #212b32;
+
+    --klavir: #8fb9ec;
+    --klavir-soft: #1b2b3e;
+    --petje: #ea9fbd;
+    --petje-soft: #3d1f2c;
+
+    --shadow-soft: 0 1px 2px rgb(0 0 0 / 0.4), 0 4px 14px -6px rgb(0 0 0 / 0.5);
+    --shadow-float: 0 10px 40px -10px rgb(0 0 0 / 0.7);
+  }
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-sunken: var(--sunken);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-on-primary: var(--on-primary);
+  --color-primary-soft: var(--primary-soft);
+  --color-attended: var(--attended);
+  --color-attended-soft: var(--attended-soft);
+  --color-excused: var(--excused);
+  --color-excused-soft: var(--excused-soft);
+  --color-unexcused: var(--unexcused);
+  --color-unexcused-soft: var(--unexcused-soft);
+  --color-cancelled: var(--cancelled);
+  --color-cancelled-soft: var(--cancelled-soft);
+  --color-klavir: var(--klavir);
+  --color-klavir-soft: var(--klavir-soft);
+  --color-petje: var(--petje);
+  --color-petje-soft: var(--petje-soft);
+
+  --font-sans: "Figtree Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces Variable", Georgia, "Times New Roman", serif;
+
+  --radius-xl: 0.875rem;
+  --radius-2xl: 1.25rem;
+  --shadow-soft: var(--shadow-soft);
+  --shadow-float: var(--shadow-float);
+}
+
+html {
+  background: var(--paper);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.5;
+  min-height: 100dvh;
+  -webkit-tap-highlight-color: transparent;
+}
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.tnum { font-variant-numeric: tabular-nums; }
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Črtovje: pet tankih črt kot v notnem zapisu – edini okrasni motiv, uporabljen samo na panelu »Danes«. */
+.staff {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 9px,
+    color-mix(in srgb, var(--ink) 11%, transparent) 9px 10px
+  );
+  background-size: 100% 50px;
+  background-repeat: no-repeat;
+}
+
+/* Trenutni čas: »playhead« z mehkim utripom. */
+@keyframes playhead {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--primary) 45%, transparent); }
+  50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--primary) 0%, transparent); }
+}
+.playhead-dot { animation: playhead 2.4s ease-in-out infinite; }
+
+/* Sheet / toast */
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fade-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes sheet-up { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@keyframes sheet-down { from { transform: translateY(0); } to { transform: translateY(100%); } }
+@keyframes sheet-left { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@keyframes sheet-right { from { transform: translateX(0); } to { transform: translateX(100%); } }
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.overlay[data-state="open"] { animation: fade-in 180ms ease-out; }
+.overlay[data-state="closed"] { animation: fade-out 150ms ease-in; }
+.sheet[data-state="open"] { animation: sheet-up 200ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+.sheet[data-state="closed"] { animation: sheet-down 160ms ease-in; }
+@media (min-width: 768px) {
+  .sheet[data-state="open"] { animation-name: sheet-left; }
+  .sheet[data-state="closed"] { animation-name: sheet-right; }
+}
+.toast { animation: toast-in 180ms ease-out; }
+
+@keyframes shimmer { 0% { opacity: 1; } 50% { opacity: 0.55; } 100% { opacity: 1; } }
+.skeleton { background: var(--sunken); border-radius: 0.75rem; animation: shimmer 1.6s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .playhead-dot { animation: none; }
+}
+
+@media print {
+  nav, aside, .no-print { display: none !important; }
+}
