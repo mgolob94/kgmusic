@@ -32,7 +32,7 @@ services:
       TZ: Europe/Ljubljana
     # Samo lokalno; javno ga izpostavi nginx z HTTPS (deploy/nginx.conf.example).
     ports:
-      - "127.0.0.1:3000:3000"
+      - "127.0.0.1:3009:3000"
 
 volumes:
   pgdata:
