@@ -8,6 +8,8 @@ const optional = z.string().trim().max(200, "Največ 200 znakov");
 export const workspaceSchema = z.object({
   name: z.string().trim().min(2, "Vnesite ime šole (vsaj 2 znaka)").max(80, "Največ 80 znakov"),
   color: z.string().regex(/^#[0-9a-fA-F]{6}$/, "Izberite barvo"),
+  seasonStartMonth: z.number().int().min(1).max(12),
+  seasonEndMonth: z.number().int().min(1).max(12),
 });
 export type WorkspaceInput = z.infer<typeof workspaceSchema>;
 
