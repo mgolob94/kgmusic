@@ -41,12 +41,12 @@ export default async function DashboardPage({ params }: { params: Promise<{ wid:
 
       <StatsStrip counts={counts} pending={pending.length} activeStudents={studs.filter((s) => s.active).length} />
 
-      <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_21rem]">
-        <div className="flex flex-col gap-5">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1fr)_21rem]">
+        <div className="flex min-w-0 flex-col gap-5">
           <TodayPanel lessons={todayLessons} now={now} holiday={holidayName(today)} />
           <PendingList lessons={pending.slice(0, 8)} total={pending.length} />
         </div>
-        <div className="flex flex-col gap-5">
+        <div className="flex min-w-0 flex-col gap-5">
           <NextUpCard lessons={todayLessons} now={now} />
           <MiniMonth workspaceId={ws.id} today={today} daysWithLessons={perDay} />
           <UpcomingList lessons={upcoming} />

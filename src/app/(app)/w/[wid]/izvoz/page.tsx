@@ -51,7 +51,7 @@ export default async function ExportPage({
         <div role="status" className="flex flex-wrap items-center gap-x-3 gap-y-2 rounded-xl border border-excused/30 bg-excused-soft px-4 py-3 text-sm">
           <TriangleAlert className="size-4 shrink-0 text-excused" aria-hidden />
           <span className="min-w-0 flex-1">
-            <strong>{totals.planned}</strong> {totals.planned === 1 ? "ura še ni zabeležena" : "ur še ni zabeleženih"}. V izvozu so označene kot »Načrtovano«.
+            Nezabeleženih ur: <strong>{totals.planned}</strong>. V izvozu so označene kot »Načrtovano«.
           </span>
           <Link href={`/w/${ws.id}/koledar?view=month&date=${from}`} className="min-h-11 py-2.5 font-semibold text-excused underline underline-offset-4">
             Odpri koledar

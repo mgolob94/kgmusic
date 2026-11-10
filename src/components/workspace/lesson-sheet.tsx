@@ -16,7 +16,7 @@ import { lessonCreateSchema, lessonEditSchema, type LessonCreateInput, type Less
 import { STATUS_META, subjectOf, type LessonStatus } from "@/lib/status";
 import type { Conflict, LessonView } from "@/lib/types";
 import { ConflictNotice } from "./conflict-notice";
-import { DurationField, SubjectPicker } from "./form-parts";
+import { DurationField, SubjectPicker, TimeField } from "./form-parts";
 import { useSetStatus } from "./use-lesson-actions";
 import { useWorkspace } from "./workspace-provider";
 
@@ -247,9 +247,7 @@ function EditLessonForm({
         <Field label="Datum" htmlFor="e-date" error={errors.date?.message}>
           <input id="e-date" type="date" className={inputClass} {...register("date")} />
         </Field>
-        <Field label="Ura začetka" htmlFor="e-time" error={errors.startTime?.message}>
-          <input id="e-time" type="time" step={300} className={inputClass} {...register("startTime")} />
-        </Field>
+        <TimeField id="e-time" label="Ura začetka" register={register("startTime")} error={errors.startTime?.message} />
       </div>
       <DurationField
         id="e-dur"
@@ -321,9 +319,7 @@ function NewLessonForm({
         <Field label="Datum" htmlFor="n-date" error={errors.date?.message}>
           <input id="n-date" type="date" className={inputClass} {...register("date")} />
         </Field>
-        <Field label="Ura začetka" htmlFor="n-time" error={errors.startTime?.message}>
-          <input id="n-time" type="time" step={300} className={inputClass} {...register("startTime")} />
-        </Field>
+        <TimeField id="n-time" label="Ura začetka" register={register("startTime")} error={errors.startTime?.message} />
       </div>
       <DurationField
         id="n-dur"

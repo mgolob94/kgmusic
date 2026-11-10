@@ -4,6 +4,7 @@ import type { UseFormRegisterReturn } from "react-hook-form";
 import { Mic, Piano } from "lucide-react";
 import { Field, inputClass } from "@/components/ui/field";
 import { SUBJECT_LABEL, SUBJECTS } from "@/lib/status";
+import { normalizeTime } from "@/lib/time-input";
 
 const ICON = { klavir: Piano, petje: Mic } as const;
 
@@ -77,6 +78,31 @@ export function DurationField({
           {...register}
         />
       </div>
+    </Field>
+  );
+}
+
+/** Ura v 24-urni obliki ne glede na jezik brskalnika. »1530«, »15.30« ali »9« se ob zapustitvi polja uredijo v »15:30« oz. »09:00«. */
+export function TimeField({ id, label, register, error }: { id: string; label: string; register: UseFormRegisterReturn; error?: string }) {
+  return (
+    <Field label={label} htmlFor={id} error={error}>
+      <input
+        id={id}
+        type="text"
+        inputMode="numeric"
+        autoComplete="off"
+        placeholder="15:30"
+        maxLength={5}
+        aria-invalid={!!error}
+        aria-describedby={error ? `${id}-error` : undefined}
+        className={`${inputClass} tnum`}
+        {...register}
+        onFocus={(e) => e.target.select()}
+        onBlur={(e) => {
+          e.target.value = normalizeTime(e.target.value);
+          void register.onBlur(e);
+        }}
+      />
     </Field>
   );
 }

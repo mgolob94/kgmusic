@@ -84,10 +84,10 @@ export async function buildPdf(opts: { workspaceName: string; month: string; les
   page.drawText("Povzetek", { x: M, y, size: 12, font: fb, color: INK });
   y -= 8;
   const sumCols: Col[] = [
-    { header: "Učenec", width: 150 }, { header: "Predmet", width: 55 },
+    { header: "Učenec", width: 128 }, { header: "Predmet", width: 55 },
     { header: "Ure (št.)", width: 55, align: "right" }, { header: "Čas", width: 62, align: "right" },
-    { header: "Opravič.", width: 55, align: "right" }, { header: "Neopr.", width: 50, align: "right" },
-    { header: "Odpadlo", width: 55, align: "right" }, { header: "Odprto", width: 33.28, align: "right" },
+    { header: "Opravič.", width: 58, align: "right" }, { header: "Neopr.", width: 50, align: "right" },
+    { header: "Odpadlo", width: 55, align: "right" }, { header: "Odprto", width: 52.28, align: "right" },
   ];
   const sumRows = rows.map((r) => [r.studentName, r.subject, String(r.attended), fmtDuration(r.minutes), String(r.excused), String(r.unexcused), String(r.cancelled), String(r.planned)]);
   sumRows.push(["Skupaj", "", String(totals.attended), fmtDuration(totals.minutes), String(totals.excused), String(totals.unexcused), String(totals.cancelled), String(totals.planned)]);
@@ -104,8 +104,8 @@ export async function buildPdf(opts: { workspaceName: string; month: string; les
     page.drawText("Vse ure po datumu", { x: M, y, size: 12, font: fb, color: INK });
     y -= 8;
     const cols: Col[] = [
-      { header: "Datum", width: 62 }, { header: "Od–do", width: 66 }, { header: "Učenec", width: 130 },
-      { header: "Predmet", width: 52 }, { header: "Status", width: 110 }, { header: "Opomba", width: 95.28 },
+      { header: "Datum", width: 74 }, { header: "Od–do", width: 72 }, { header: "Učenec", width: 118 },
+      { header: "Predmet", width: 52 }, { header: "Status", width: 110 }, { header: "Opomba", width: 89.28 },
     ];
     table(cols, lessons.map((l) => { const d = detailRow(l); return [d.date, `${d.from}–${d.to}`, d.student, d.subject, d.status, d.note]; }));
   }

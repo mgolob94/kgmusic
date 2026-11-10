@@ -37,8 +37,8 @@ export function TodayPanel({ lessons, now: initial, holiday }: { lessons: Lesson
           {lessons.length === 0
             ? "Danes ni ur."
             : remaining === 0
-              ? `Vseh ${active.length} ur je za vami.`
-              : `Še ${remaining} od ${active.length} ur.`}
+              ? "Vse današnje ure so za vami."
+              : `Ostaja še ${remaining} od ${active.length}.`}
         </p>
       </div>
 

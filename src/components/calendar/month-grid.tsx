@@ -45,7 +45,7 @@ export function MonthGrid({
             >
               <Link
                 href={calHref(workspace.id, { view: "day", date: d, ...filters })}
-                aria-label={`${format(toDate(d), "d. M.")}${holiday ? `, ${holiday}` : ""}, ${list.length} ur`}
+                aria-label={`${format(toDate(d), "d. M.")}${holiday ? `, ${holiday}` : ""}, ur: ${list.length}`}
                 aria-current={isToday ? "date" : undefined}
                 className={`grid size-8 place-items-center rounded-full text-sm tnum hover:bg-sunken ${isToday ? "bg-primary font-semibold text-on-primary hover:bg-primary" : inMonth ? "" : "text-ink-faint"} ${holiday && !isToday ? "text-unexcused" : ""}`}
               >

@@ -135,14 +135,24 @@ h1, h2, h3 {
 }
 
 /* Črtovje: pet tankih črt kot v notnem zapisu – edini okrasni motiv, uporabljen samo na panelu »Danes«. */
-.staff {
+.staff { position: relative; isolation: isolate; }
+.staff::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  right: 0;
+  top: 50%;
+  width: 46%;
+  height: 50px;
+  transform: translateY(-50%);
   background-image: repeating-linear-gradient(
     to bottom,
     transparent 0 9px,
-    color-mix(in srgb, var(--ink) 11%, transparent) 9px 10px
+    color-mix(in srgb, var(--ink) 16%, transparent) 9px 10px
   );
-  background-size: 100% 50px;
-  background-repeat: no-repeat;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 70%);
+  mask-image: linear-gradient(to right, transparent, #000 70%);
+  pointer-events: none;
 }
 
 /* Trenutni čas: »playhead« z mehkim utripom. */

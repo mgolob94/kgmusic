@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: kgmusic
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?nastavi POSTGRES_PASSWORD v .env}
+      POSTGRES_DB: kgmusic
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kgmusic -d kgmusic"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://kgmusic:${POSTGRES_PASSWORD}@db:5432/kgmusic
+      SESSION_SECRET: ${SESSION_SECRET:?nastavi SESSION_SECRET v .env}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:?nastavi ADMIN_EMAIL v .env}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?nastavi ADMIN_PASSWORD v .env}
+      COOKIE_SECURE: ${COOKIE_SECURE:-true}
+      TZ: Europe/Ljubljana
+    # Samo lokalno; javno ga izpostavi nginx z HTTPS (deploy/nginx.conf.example).
+    ports:
+      - "127.0.0.1:3000:3000"
+
+volumes:
+  pgdata:

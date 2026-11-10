@@ -38,7 +38,7 @@ export function SlotRow({ slot }: { slot: SlotRowData }) {
     const { added, removed, previousEnd } = r.data;
     setEnd(newEnd);
     toast({
-      message: added ? `Dodanih ${added} terminov.` : removed ? `Odstranjenih ${removed} nezabeleženih terminov.` : "Konec serije je spremenjen.",
+      message: added ? `Dodanih terminov: ${added}.` : removed ? `Odstranjenih nezabeleženih terminov: ${removed}.` : "Konec serije je spremenjen.",
       action: {
         label: "Razveljavi",
         onClick: async () => {

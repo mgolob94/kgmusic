@@ -12,10 +12,11 @@ import { Sheet } from "@/components/ui/sheet";
 import { EmptyState } from "@/components/ui/states";
 import { useToast } from "@/components/ui/toast";
 import { endTime, fmtDate, isoWeekday, seasonDefaults, todayIso, toDate, toIso, WEEKDAYS } from "@/lib/date";
+import { terminov } from "@/lib/plural";
 import { seriesDates } from "@/lib/recurrence";
 import { slotSchema, type SlotInput } from "@/lib/schemas";
 import type { Conflict } from "@/lib/types";
-import { DurationField, SubjectPicker } from "./form-parts";
+import { DurationField, SubjectPicker, TimeField } from "./form-parts";
 import { ConflictNotice } from "./conflict-notice";
 import { useWorkspace } from "./workspace-provider";
 
@@ -76,7 +77,7 @@ export function SlotSheet({
       setFormError(r.error);
       return;
     }
-    toast({ message: `Ustvarjenih ${r.data.created} terminov.` });
+    toast({ message: `Ustvarjenih terminov: ${r.data.created}.` });
     if (r.data.conflictCount > 0) setResult(r.data);
     else onOpenChange(false);
   });
@@ -103,7 +104,7 @@ export function SlotSheet({
       <Sheet open={open} onOpenChange={onOpenChange} title="Termini so ustvarjeni" description={workspace.name}>
         <div className="flex flex-col gap-4">
           <p>
-            Ustvarjenih je <strong>{result.created}</strong> terminov.
+            Ustvarjenih terminov: <strong>{result.created}</strong>.
           </p>
           <ConflictNotice conflicts={result.conflicts} total={result.conflictCount} />
           <Button onClick={() => onOpenChange(false)}>Končano</Button>
@@ -134,9 +135,7 @@ export function SlotSheet({
               ))}
             </select>
           </Field>
-          <Field label="Ura začetka" htmlFor="startTime" error={err("startTime")}>
-            <input id="startTime" type="time" step={300} className={inputClass} aria-invalid={!!errors.startTime} {...register("startTime")} />
-          </Field>
+          <TimeField id="startTime" label="Ura začetka" register={register("startTime")} error={err("startTime")} />
         </div>
 
         <DurationField
@@ -180,7 +179,7 @@ export function SlotSheet({
             <CalendarPlus className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden />
             <span>
               Vsak {weekday.label.toLowerCase()} ob {v.startTime}–{endTime(v.startTime, Number(v.durationMin))}:{" "}
-              <strong>{preview.n} terminov</strong> od {fmtDate(preview.first)} do {fmtDate(preview.last!)}.
+              <strong>{terminov(preview.n)}</strong> od {fmtDate(preview.first)} do {fmtDate(preview.last!)}.
               {preview.skipped > 0 && ` Preskočenih praznikov: ${preview.skipped}.`}
             </span>
           </p>

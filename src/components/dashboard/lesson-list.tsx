@@ -1,7 +1,8 @@
 "use client";
 
 import { CircleCheck } from "lucide-react";
-import { StatusBadge, SubjectBadge } from "@/components/ui/badges";
+import { STATUS_ICON, STATUS_TONE, SubjectBadge } from "@/components/ui/badges";
+import { STATUS_META, type LessonStatus } from "@/lib/status";
 import { EmptyState } from "@/components/ui/states";
 import { useWorkspace } from "@/components/workspace/workspace-provider";
 import { endTime, fmtDayShort } from "@/lib/date";
@@ -61,12 +62,25 @@ export function UpcomingList({ lessons }: { lessons: LessonView[] }) {
                 <span className="w-24 shrink-0 text-sm text-ink-soft tnum">{fmtDayShort(l.date)}</span>
                 <span className="w-11 shrink-0 text-sm font-semibold tnum">{l.startTime}</span>
                 <span className="min-w-0 flex-1 truncate">{l.studentName}</span>
-                {l.status !== "planned" && <StatusBadge status={l.status} short />}
+                {l.status !== "planned" && (
+                  <span title={STATUS_META[l.status].label} className="shrink-0">
+                    <StatusIcon status={l.status} />
+                  </span>
+                )}
               </button>
             </li>
           ))}
         </ul>
       )}
     </section>
+  );
+}
+
+function StatusIcon({ status }: { status: LessonStatus }) {
+  const Icon = STATUS_ICON[status];
+  return (
+    <span className={`grid size-7 place-items-center rounded-full ${STATUS_TONE[status]}`}>
+      <Icon className="size-4" aria-label={STATUS_META[status].label} role="img" />
+    </span>
   );
 }
