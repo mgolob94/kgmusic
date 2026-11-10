@@ -222,3 +222,7 @@ export async function findConflicts(
 export async function monthLessons(workspaceId: string, from: string, to: string) {
   return lessonsBetween(workspaceId, from, to);
 }
+
+export async function slotsForWorkspace(workspaceId: string) {
+  return db.select().from(slots).where(eq(slots.workspaceId, workspaceId));
+}
