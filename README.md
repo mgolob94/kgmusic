@@ -2,6 +2,10 @@
 
 PWA (Next.js 16, App Router, TypeScript strict, Tailwind 4, Postgres + Drizzle). Več šol (workspace), vsaka s svojimi učenci in urnikom, tedensko ponavljajoči termini, koledar, evidenca prisotnosti in mesečni izvoz v Excel/PDF.
 
+## Registracija in računi
+
+`/registracija` ustvari račun in odpre prvo šolo. `ADMIN_EMAIL`/`ADMIN_PASSWORD` sta neobvezna (ustvarita prvi račun ob zagonu). Omejitev poskusov je v pomnilniku ene instance.
+
 ## Zagon lokalno
 
 ```bash
@@ -16,7 +20,7 @@ npm run dev
 
 ```bash
 git clone <repo> && cd kgmusic
-cp .env.example .env              # nastavi POSTGRES_PASSWORD, SESSION_SECRET, ADMIN_EMAIL, ADMIN_PASSWORD
+cp .env.example .env              # nastavi POSTGRES_PASSWORD, SESSION_SECRET (openssl rand -base64 48) in INVITE_CODE
 docker compose up -d --build      # migracije se zaženejo samodejno ob zagonu
 ```
 
@@ -34,7 +38,7 @@ Varnostna kopija: `docker compose exec db pg_dump -U kgmusic kgmusic > backup.sq
 
 ## Predpostavke
 
-- Ena učiteljica; prijava z e-naslovom in geslom (bcrypt, podpisano sejno piškotek, omejitev poskusov). Tabela `users` je pripravljena za več računov.
+- Več uporabnikov: vsak se registrira na `/registracija` (e-naslov + geslo, min. 10 znakov, bcrypt), vidi samo svoje šole in učence (preverjanje lastništva v vsaki poizvedbi in akciji). Na javnem strežniku nastavi `INVITE_CODE` (brez kode registracija ne uspe) ali `REGISTRATION_OPEN=false`. Ni še potrditve e-naslova niti pozabljenega gesla.
 - Postgres namesto Mongo: relacijski podatki (učenec ↔ serija ↔ ura) in izvozi so naravno SQL; ostaja v istem compose.
 - Datumi in ure so lokalni nizi (`YYYY-MM-DD`, `HH:MM`, čas Europe/Ljubljana), zato poletni čas ne zamika ur.
 - Izvoz šteje kot »opravljeno« samo status *opravljeno*. Pravilo za obračun (npr. neopravičen izostanek se zaračuna) pride kasneje.
@@ -62,6 +66,7 @@ Varnostna kopija: `docker compose exec db pg_dump -U kgmusic kgmusic > backup.sq
 
 ## Naslednji koraki
 
+0. **Pozabljeno geslo + potrditev e-naslova** (potrebuje pošiljanje e-pošte, npr. Resend/SMTP).
 1. **Obračun**: cena na šolo/učenca, pravila za izostanke, vsota v izvozu.
 2. **Počitnice**: seznam šolskih počitnic na šolo, množično »odpadlo« za obdobje.
 3. **Spremeni serijo od datuma**: nov dan/ura od izbranega tedna naprej.

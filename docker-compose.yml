@@ -23,8 +23,11 @@ services:
     environment:
       DATABASE_URL: postgres://kgmusic:${POSTGRES_PASSWORD}@db:5432/kgmusic
       SESSION_SECRET: ${SESSION_SECRET:?nastavi SESSION_SECRET v .env}
-      ADMIN_EMAIL: ${ADMIN_EMAIL:?nastavi ADMIN_EMAIL v .env}
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?nastavi ADMIN_PASSWORD v .env}
+      # Neobvezno: prvi račun se ustvari ob zagonu. Sicer se uporabniki registrirajo sami.
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      REGISTRATION_OPEN: ${REGISTRATION_OPEN:-true}
+      INVITE_CODE: ${INVITE_CODE:-}
       COOKIE_SECURE: ${COOKIE_SECURE:-true}
       TZ: Europe/Ljubljana
     # Samo lokalno; javno ga izpostavi nginx z HTTPS (deploy/nginx.conf.example).
